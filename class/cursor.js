@@ -22,6 +22,7 @@ class Cursor {
 
   up() {
     // Move cursor up
+    if (this.row - 1 >= 0) this.row--;
   }
 
   down() {
@@ -31,10 +32,12 @@ class Cursor {
 
   left() {
     // Move cursor left
+    if (this.col - 1 >= 0) this.col--;
   }
 
   right() {
     // Move cursor right
+    if (this.col + 1 < this.numCols) this.col++;
   }
 }
 
