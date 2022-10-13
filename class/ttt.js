@@ -51,11 +51,21 @@ class TTT {
     let playerMark = () => {
       Screen.setGrid(this.cursor.row, this.cursor.col, this.playerTurn);
       this.grid[this.cursor.row][this.cursor.col] = this.playerTurn;
+
+      const resp = TTT.checkWin(this.grid);
+      if (resp !== false) {
+        TTT.endGame(resp);
+      }
     };
 
     let computerMark = () => {
       Screen.setGrid(this.cursor.row, this.cursor.col, "X");
       this.grid[this.cursor.row][this.cursor.col] = "X";
+
+      const resp = TTT.checkWin(this.grid);
+      if (resp !== false) {
+        TTT.endGame(resp);
+      }
     };
 
     Screen.addCommand("w", "go up", moveUp);
