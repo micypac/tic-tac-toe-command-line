@@ -48,11 +48,26 @@ class TTT {
       Screen.render();
     };
 
+    let playerMark = () => {
+      Screen.setGrid(this.cursor.row, this.cursor.col, this.playerTurn);
+      this.grid[this.cursor.row][this.cursor.col] = this.playerTurn;
+    };
+
+    let computerMark = () => {
+      Screen.setGrid(this.cursor.row, this.cursor.col, "X");
+      this.grid[this.cursor.row][this.cursor.col] = "X";
+    };
+
     Screen.addCommand("w", "go up", moveUp);
     Screen.addCommand("s", "go down", moveDown);
     Screen.addCommand("a", "go left", moveLeft);
     Screen.addCommand("d", "go right", moveRight);
     Screen.addCommand("h", "show commands", Screen.printCommands);
+    Screen.addCommand("m", "player turn - mark cell", playerMark);
+    Screen.addCommand("n", "computer turn - mark cell", computerMark);
+
+    this.cursor.resetBackgroundColor();
+    this.cursor.setBackgroundColor();
 
     Screen.render();
   }
