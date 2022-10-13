@@ -2,14 +2,14 @@ const Screen = require("./screen");
 const Cursor = require("./cursor");
 
 class TTT {
-
   constructor() {
-
     this.playerTurn = "O";
 
-    this.grid = [[' ',' ',' '],
-                 [' ',' ',' '],
-                 [' ',' ',' ']]
+    this.grid = [
+      [" ", " ", " "],
+      [" ", " ", " "],
+      [" ", " ", " "],
+    ];
 
     this.cursor = new Cursor(3, 3);
 
@@ -18,7 +18,7 @@ class TTT {
     Screen.setGridlines(true);
 
     // Replace this with real commands
-    Screen.addCommand('t', 'test command (remove)', TTT.testCommand);
+    Screen.addCommand("t", "test command (remove)", TTT.testCommand);
 
     Screen.render();
   }
@@ -29,18 +29,70 @@ class TTT {
   }
 
   static checkWin(grid) {
-
     // Return 'X' if player X wins
     // Return 'O' if player O wins
     // Return 'T' if the game is a tie
     // Return false if the game has not ended
 
+    // helper function to flatten the grid into 1-dim array
+    const flatten = (grid) => {
+      let result = [];
+
+      for (let el of grid) {
+        if (Array.isArray(el)) {
+          let resp = flatten(el);
+          result = result.concat(resp);
+        } else {
+          result.push(el);
+        }
+      }
+
+      return result;
+    };
+
+    let roundWon = false;
+    let playerWon = undefined;
+
+    const winningConditions = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    let gameState = flatten(grid);
+
+    for (let i = 0; i < winningConditions.length; i++) {
+      const winCond = winningConditions[i];
+      let a = gameState[winCond[0]];
+      let b = gameState[winCond[1]];
+      let c = gameState[winCond[2]];
+
+      if (a === " " || b === " " || c === " ") continue;
+      if (a === b && b === c) {
+        roundWon = true;
+        playerWon = a;
+        break;
+      }
+    }
+
+    if (roundWon) {
+      return playerWon;
+    }
+
+    let roundDraw = !gameState.includes(" ");
+    if (roundDraw) return "T";
+    else return false;
   }
 
   static endGame(winner) {
-    if (winner === 'O' || winner === 'X') {
+    if (winner === "O" || winner === "X") {
       Screen.setMessage(`Player ${winner} wins!`);
-    } else if (winner === 'T') {
+    } else if (winner === "T") {
       Screen.setMessage(`Tie game!`);
     } else {
       Screen.setMessage(`Game Over`);
@@ -48,7 +100,6 @@ class TTT {
     Screen.render();
     Screen.quit();
   }
-
 }
 
 module.exports = TTT;
