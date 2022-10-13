@@ -18,15 +18,49 @@ class TTT {
     Screen.setGridlines(true);
 
     // Replace this with real commands
-    Screen.addCommand("t", "test command (remove)", TTT.testCommand);
+    // Screen.addCommand("t", "test command (remove)", TTT.testCommand);
+
+    let moveUp = () => {
+      this.cursor.resetBackgroundColor.call(this.cursor);
+      this.cursor.up();
+      this.cursor.setBackgroundColor.call(this.cursor);
+      Screen.render();
+    };
+
+    let moveDown = () => {
+      this.cursor.resetBackgroundColor.call(this.cursor);
+      this.cursor.down();
+      this.cursor.setBackgroundColor.call(this.cursor);
+      Screen.render();
+    };
+
+    let moveRight = () => {
+      this.cursor.resetBackgroundColor.call(this.cursor);
+      this.cursor.right();
+      this.cursor.setBackgroundColor.call(this.cursor);
+      Screen.render();
+    };
+
+    let moveLeft = () => {
+      this.cursor.resetBackgroundColor.call(this.cursor);
+      this.cursor.left();
+      this.cursor.setBackgroundColor.call(this.cursor);
+      Screen.render();
+    };
+
+    Screen.addCommand("w", "go up", moveUp);
+    Screen.addCommand("s", "go down", moveDown);
+    Screen.addCommand("a", "go left", moveLeft);
+    Screen.addCommand("d", "go right", moveRight);
+    Screen.addCommand("h", "show commands", Screen.printCommands);
 
     Screen.render();
   }
 
   // Remove this
-  static testCommand() {
-    console.log("TEST COMMAND");
-  }
+  // static testCommand() {
+  //   console.log("TEST COMMAND");
+  // }
 
   static checkWin(grid) {
     // Return 'X' if player X wins
